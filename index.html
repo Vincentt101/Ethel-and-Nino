@@ -175,13 +175,60 @@
   html:not(.js) main{ opacity:1; transform:none; }
   main.reveal{ opacity:1; transform:translateY(0); }
 
-  .crest{ display:flex; flex-direction:column; align-items:center; gap:.4rem; }
-  .wreath{ position:relative; width:190px; height:190px; display:flex; align-items:center; justify-content:center; }
-  .wreath svg.ring{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
-  .wreath .leaf-use{ fill:var(--rose-line); opacity:.85; }
-  .wreath-initials{ display:flex; align-items:baseline; gap:.35rem; z-index:2; }
-  .wreath-initials .script{ font-size:2.6rem; color:var(--ink); }
-  .wreath-initials .amp{ font-family:'Cormorant Garamond', serif; font-style:italic; font-size:1.1rem; color:var(--rose); }
+  /* ---------- monogram stage (dark animated hero) ---------- */
+  .monogram-stage{
+    width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    position:relative; min-height:82vh; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:3.5rem 1.5rem 4.5rem;
+    background:radial-gradient(ellipse at 50% 18%, #3a1120 0%, #1c0710 55%, #0d0408 100%);
+  }
+  .monogram-stage::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:14vh;
+    background:linear-gradient(to bottom, transparent, var(--paper)); pointer-events:none;
+  }
+  .stage-mood{ position:absolute; inset:0; pointer-events:none; }
+  .mood-glitter{
+    background:radial-gradient(ellipse at 50% 15%, rgba(236,111,155,.28), transparent 62%);
+    animation:moodCycle 20s ease-in-out infinite;
+  }
+  .mood-nebula{
+    background:
+      radial-gradient(ellipse at 72% 62%, rgba(184,42,94,.4), transparent 55%),
+      radial-gradient(ellipse at 18% 78%, rgba(120,20,60,.35), transparent 60%);
+    animation:moodCycle 20s ease-in-out infinite; animation-delay:10s;
+  }
+  @keyframes moodCycle{ 0%,45%{ opacity:1; } 55%,100%{ opacity:0; } }
+  .stage-floor-glow{
+    position:absolute; left:50%; bottom:-12%; width:150%; height:42%; transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 100%, rgba(255,214,230,.4), transparent 70%);
+    filter:blur(3px); pointer-events:none;
+  }
+  .sparkle-canvas{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+
+  .stage-content{ position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:.6rem; }
+
+  .monogram-mark{
+    position:relative; height:clamp(8rem,28vw,12.5rem); display:flex; align-items:center; justify-content:center;
+    margin-bottom:.3rem;
+  }
+  .monogram-mark span{
+    font-family:'Cormorant Garamond', serif; font-weight:600; font-style:italic;
+    font-size:clamp(6.5rem,24vw,10rem); line-height:1; color:#fdeaf1;
+    text-shadow:0 0 34px rgba(246,169,201,.6), 0 2px 2px rgba(0,0,0,.45);
+  }
+  .mono-e{ position:relative; z-index:1; margin-right:-0.36em; transform:translateY(-3%); }
+  .mono-n{ position:relative; z-index:2; margin-left:-0.36em; transform:translateY(5%); }
+
+  .stage-eyebrow{ color:#f0accb; }
+  .stage-names .script{ color:#fdeaf1; text-shadow:0 2px 20px rgba(0,0,0,.5); }
+  .stage-names .amp-row{ color:#e79fbb; }
+  .stage-tagline{ color:#e7bdcb; }
+
+  @media (prefers-reduced-motion: reduce){
+    .mood-glitter, .mood-nebula{ animation:none; }
+    .mood-glitter{ opacity:.6; } .mood-nebula{ opacity:.4; }
+  }
 
   .names{ text-align:center; }
   .names .script{ font-size:clamp(2.8rem, 11vw, 4.6rem); color:var(--ink); }
@@ -407,26 +454,28 @@
 </div>
 
 <main id="main">
-  <div class="crest">
-    <div class="wreath" id="wreath">
-      <svg class="ring" id="wreathRing" viewBox="-100 -100 200 200"></svg>
-      <div class="wreath-initials">
-        <span class="script">E</span>
-        <span class="amp">&amp;</span>
-        <span class="script">N</span>
+  <section class="monogram-stage" id="monogramStage">
+    <canvas class="sparkle-canvas" id="sparkleCanvas" aria-hidden="true"></canvas>
+    <div class="stage-mood mood-glitter" aria-hidden="true"></div>
+    <div class="stage-mood mood-nebula" aria-hidden="true"></div>
+    <div class="stage-floor-glow" aria-hidden="true"></div>
+
+    <div class="stage-content">
+      <div class="monogram-mark" aria-hidden="true">
+        <span class="mono-e">E</span><span class="mono-n">N</span>
       </div>
+
+      <p class="eyebrow stage-eyebrow">Together with their families</p>
+
+      <div class="names stage-names">
+        <div class="script">Ethel</div>
+        <div class="amp-row">&amp;</div>
+        <div class="script">Niño</div>
+      </div>
+
+      <p class="tagline stage-tagline">are getting married — and saving you a seat at their forever after.</p>
     </div>
-  </div>
-
-  <p class="eyebrow">Together with their families</p>
-
-  <div class="names">
-    <div class="script">Ethel</div>
-    <div class="amp-row">&amp;</div>
-    <div class="script">Niño</div>
-  </div>
-
-  <p class="tagline">are getting married — and saving you a seat at their forever after.</p>
+  </section>
 
   <nav class="site-nav" id="siteNav" aria-label="Section navigation">
     <a href="#details">Details</a>
@@ -635,31 +684,59 @@
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // build a leaf wreath ring via generated transforms
-  function buildRing(svg, opts){
-    var ns='http://www.w3.org/2000/svg';
-    var count=opts.count, radius=opts.radius, gapDeg=opts.gap||34, scale=opts.scale||1;
-    var start = 90 + gapDeg/2;
-    var end = 90 - gapDeg/2 + 360;
-    var steps = count;
-    for(var i=0;i<=steps;i++){
-      var t = i/steps;
-      var angle = (start + t*(end-start)) * Math.PI/180;
-      var x = Math.cos(angle)*radius;
-      var y = -Math.sin(angle)*radius;
-      var rotate = (angle*180/Math.PI) + 90;
-      var mirror = (Math.cos(angle) < 0) ? -1 : 1;
-      var s = scale * (0.85 + 0.3*Math.abs(Math.sin(t*Math.PI)));
-      var use=document.createElementNS(ns,'use');
-      use.setAttribute('href','#leaf');
-      use.setAttribute('class','leaf-use');
-      use.setAttribute('width','16'); use.setAttribute('height','30');
-      use.setAttribute('transform',
-        'translate('+x.toFixed(2)+','+y.toFixed(2)+') rotate('+rotate.toFixed(1)+') scale('+(mirror*s).toFixed(2)+','+s.toFixed(2)+') translate(-8,-15)');
-      svg.appendChild(use);
+  // sparkle particle field for the dark monogram stage
+  function initSparkles(canvas){
+    var ctx=canvas.getContext('2d');
+    var dpr=Math.min(window.devicePixelRatio||1, 2);
+    var w=0, h=0;
+
+    function resize(){
+      var rect=canvas.parentElement.getBoundingClientRect();
+      w=rect.width; h=rect.height;
+      canvas.width=w*dpr; canvas.height=h*dpr;
+      canvas.style.width=w+'px'; canvas.style.height=h+'px';
     }
+    resize();
+    window.addEventListener('resize', resize);
+
+    var colors=['255,255,255,', '246,169,201,', '236,111,155,', '249,188,214,'];
+    var count = reduced ? 36 : 90;
+    var particles=[];
+    for(var i=0;i<count;i++){ particles.push(makeParticle()); }
+
+    function makeParticle(){
+      var fromTop = Math.random() < 0.5;
+      return {
+        x: Math.random(),
+        y: fromTop ? Math.random()*0.4 : 0.7 + Math.random()*0.35,
+        r: 1 + Math.random()*2.2,
+        speed: (0.00012 + Math.random()*0.00022) * (fromTop ? 1 : -1),
+        color: colors[Math.floor(Math.random()*colors.length)],
+        phase: Math.random()*Math.PI*2,
+        twinkle: 0.015 + Math.random()*0.025
+      };
+    }
+
+    function frame(t){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(function(p){
+        p.y += p.speed;
+        if(p.y < -0.05) p.y = 1.05;
+        if(p.y > 1.05) p.y = -0.05;
+        var alpha=(0.3 + 0.45*Math.abs(Math.sin(t*p.twinkle + p.phase))).toFixed(3);
+        var x=p.x*canvas.width, y=p.y*canvas.height, r=p.r*dpr*4;
+        var grad=ctx.createRadialGradient(x,y,0,x,y,r);
+        grad.addColorStop(0, 'rgba('+p.color+alpha+')');
+        grad.addColorStop(1, 'rgba('+p.color+'0)');
+        ctx.fillStyle=grad;
+        ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+      });
+      if(!reduced){ requestAnimationFrame(frame); }
+    }
+    requestAnimationFrame(frame);
   }
-  buildRing(document.getElementById('wreathRing'), {count:22, radius:78, gap:46, scale:1});
+  var sparkleCanvas=document.getElementById('sparkleCanvas');
+  if(sparkleCanvas){ initSparkles(sparkleCanvas); }
 
   // sprig dividers: symmetric fan of leaves from a center point
   function buildSprig(svg){
