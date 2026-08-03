@@ -521,6 +521,22 @@
   .share-hashtag{ display:flex; flex-direction:column; align-items:center; gap:.5rem; margin-top:.6rem; }
   .share-hashtag .hashtag-pill{ margin:0; }
 
+  .share-social{ display:flex; flex-direction:column; align-items:center; gap:.7rem; margin-top:.5rem; }
+  .share-social-row{ display:flex; gap:.8rem; }
+  .share-social-btn{
+    width:2.6rem; height:2.6rem; border-radius:50%; border:1px solid var(--rose-line);
+    background:var(--paper-deep); color:var(--rose); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:transform .15s ease, background-color .15s ease;
+  }
+  .share-social-btn svg{ width:1.2rem; height:1.2rem; }
+  .share-social-btn:hover{ transform:translateY(-2px); background:var(--blush); }
+  .share-social-btn:focus-visible{ outline:2px solid var(--ink-soft); outline-offset:2px; }
+  .share-toast{
+    font-family:'Jost',sans-serif; font-size:.72rem; color:var(--ink-soft); min-height:1.2em;
+    margin:0; opacity:0; transition:opacity .25s ease;
+  }
+  .share-toast.visible{ opacity:1; }
+
   /* ---------- rsvp form ---------- */
   .rsvp-form{ width:100%; text-align:left; display:flex; flex-direction:column; gap:1.5rem; margin-top:.4rem; }
   .field label{
@@ -949,6 +965,26 @@
         </div>
       </div>
     </div>
+
+    <div class="share-social">
+      <span class="eyebrow label">Share this invitation</span>
+      <div class="share-social-row">
+        <button type="button" class="share-social-btn" data-platform="facebook" aria-label="Share on Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9h2.5V5.5H14c-2.2 0-4 1.8-4 4V12H8v3.5h2V22h3.5v-6.5H16l.7-3.5h-3.2V9.3c0-.5.4-.9.9-.9Z" fill="currentColor"/></svg>
+        </button>
+        <button type="button" class="share-social-btn" data-platform="instagram" aria-label="Share on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="16.2" cy="7.8" r="1" fill="currentColor"/>
+          </svg>
+        </button>
+        <button type="button" class="share-social-btn" data-platform="tiktok" aria-label="Share on TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v9.6a2.6 2.6 0 1 1-2-2.53V8.9a5.1 5.1 0 1 0 4 4.98V9.6c.9.7 2 1.1 3 1.1V8.3c-1.9 0-3-1.4-3-3.1V4h-2Z" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <p class="share-toast" id="shareToast" aria-live="polite"></p>
+    </div>
   </section>
 
   <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
@@ -1125,6 +1161,39 @@
   lightboxClose.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', function(e){
     if(e.target===lightbox){ closeLightbox(); }
+  });
+
+  // social share shortcuts
+  var shareToast=document.getElementById('shareToast');
+  var shareToastTimer=null;
+  function showShareToast(msg){
+    shareToast.textContent=msg;
+    shareToast.classList.add('visible');
+    clearTimeout(shareToastTimer);
+    shareToastTimer=setTimeout(function(){ shareToast.classList.remove('visible'); }, 3200);
+  }
+  var siteUrl='https://vincentt101.github.io/Ethel-and-Nino/';
+  var shareText="Join us in celebrating Ethel & Niño's wedding!";
+  document.querySelectorAll('.share-social-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var platform=btn.getAttribute('data-platform');
+      if(platform==='facebook'){
+        window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(siteUrl),
+          '_blank', 'noopener,width=580,height=520');
+        return;
+      }
+      if(navigator.share){
+        navigator.share({ title:'Ethel & Niño', text:shareText, url:siteUrl }).catch(function(){});
+        return;
+      }
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(siteUrl).then(function(){
+          showShareToast('Link copied — paste it into ' + (platform==='instagram' ? 'Instagram' : 'TikTok') + '.');
+        });
+      } else {
+        showShareToast('Copy this link: ' + siteUrl);
+      }
+    });
   });
 
   // in-page nav: smooth scroll to sections
