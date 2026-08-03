@@ -450,16 +450,7 @@
   }
   .countdown-label{ font-size:.62rem; }
 
-  .entourage-grid{ width:100%; display:grid; grid-template-columns:repeat(auto-fit, minmax(210px,1fr)); gap:1.1rem; }
-  .entourage-group{
-    border:1px solid var(--rose-line); border-radius:12px; padding:1.1rem 1.2rem; text-align:left;
-    background:linear-gradient(180deg, var(--paper-deep), transparent);
-  }
-  .entourage-group h3{
-    font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:1.05rem;
-    color:var(--rose); margin:0 0 .45rem;
-  }
-  .entourage-group .names-list{
+  .names-list{
     font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-style:italic;
     color:var(--ink-soft); line-height:1.7; margin:0;
   }
@@ -468,16 +459,28 @@
   .divider-heart::before, .divider-heart::after{ content:""; flex:1; height:1px; background:var(--rose-line); }
   .divider-heart span{ color:var(--rose); font-size:.9rem; line-height:1; }
 
+  .dot-divider{ display:flex; gap:.4rem; justify-content:center; align-items:center; width:100%; }
+  .dot-divider span{ width:4px; height:4px; border-radius:50%; background:var(--rose-line); }
+
   .sponsor-card{
     width:100%; display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;
     border:1px solid var(--rose-line); border-radius:14px; padding:1.6rem 1.4rem;
     background:var(--paper-deep);
   }
   .sponsor-col{ display:flex; flex-direction:column; align-items:center; gap:.5rem; }
-  .sponsor-col .names-list{
-    font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-style:italic;
-    color:var(--ink-soft); line-height:1.7; margin:0;
+
+  .entourage-card{
+    width:100%; display:flex; flex-direction:column; gap:1.3rem;
+    border:1px solid var(--rose-line); border-radius:16px; padding:1.8rem 1.4rem;
+    background:var(--paper-deep);
   }
+  .entourage-block{ display:flex; flex-direction:column; gap:.7rem; }
+  .entourage-cols{ display:grid; grid-template-columns:1fr 1fr; gap:.9rem 1rem; text-align:center; }
+  .entourage-heading{ margin:0; }
+  .entourage-person{ display:flex; flex-direction:column; gap:.25rem; }
+  .entourage-name{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.1rem; color:var(--ink); }
+  .entourage-sub{ opacity:.75; }
+  .entourage-note{ text-align:center; margin:0; }
 
   .attire-cols{ width:100%; display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:1.2rem; text-align:left; }
   .attire-col h3{ font-family:'Jost',sans-serif; font-size:.72rem; text-transform:uppercase; letter-spacing:.2em; color:var(--rose); margin:0 0 .4rem; }
@@ -738,39 +741,95 @@
   <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
 
   <section class="section" id="entourage">
-    <p class="eyebrow">With gratitude</p>
-    <h2 class="section-title">The Entourage</h2>
-    <div class="entourage-grid">
-      <div class="entourage-group">
-        <h3>Parents of the Groom</h3>
+    <p class="eyebrow">Those who stand with us</p>
+    <h2 class="section-title">Wedding Entourage</h2>
+    <div class="divider-heart"><span>&#10084;</span></div>
+
+    <div class="entourage-card">
+      <div class="entourage-block">
+        <p class="eyebrow entourage-heading">The Couple</p>
+        <div class="entourage-cols">
+          <div class="entourage-person"><span class="entourage-name">Niño</span><span class="eyebrow entourage-sub">Groom</span></div>
+          <div class="entourage-person"><span class="entourage-name">Ethel</span><span class="eyebrow entourage-sub">Bride</span></div>
+        </div>
+      </div>
+
+      <div class="dot-divider"><span></span><span></span><span></span></div>
+
+      <div class="entourage-block">
+        <div class="entourage-cols">
+          <p class="eyebrow entourage-heading">Parents of the Groom</p>
+          <p class="eyebrow entourage-heading">Parents of the Bride</p>
+        </div>
+        <div class="entourage-cols">
+          <div class="entourage-person"><span class="entourage-name">To be announced</span><span class="eyebrow entourage-sub">Father</span></div>
+          <div class="entourage-person"><span class="entourage-name">To be announced</span><span class="eyebrow entourage-sub">Father</span></div>
+        </div>
+        <div class="entourage-cols">
+          <div class="entourage-person"><span class="entourage-name">To be announced</span><span class="eyebrow entourage-sub">Mother</span></div>
+          <div class="entourage-person"><span class="entourage-name">To be announced</span><span class="eyebrow entourage-sub">Mother</span></div>
+        </div>
+      </div>
+
+      <div class="dot-divider"><span></span><span></span><span></span></div>
+
+      <p class="tagline entourage-note">To assist us in our needs</p>
+      <div class="entourage-block">
+        <div class="entourage-cols">
+          <p class="eyebrow entourage-heading">Best Man</p>
+          <p class="eyebrow entourage-heading">Maid of Honor</p>
+        </div>
+        <div class="entourage-cols">
+          <p class="names-list">To be announced</p>
+          <p class="names-list">To be announced</p>
+        </div>
+      </div>
+
+      <div class="dot-divider"><span></span><span></span><span></span></div>
+
+      <div class="entourage-block">
+        <div class="entourage-cols">
+          <p class="eyebrow entourage-heading">Groomsmen</p>
+          <p class="eyebrow entourage-heading">Bridesmaids</p>
+        </div>
+        <div class="entourage-cols">
+          <p class="names-list">To be announced</p>
+          <p class="names-list">To be announced</p>
+        </div>
+      </div>
+
+      <div class="entourage-block">
+        <p class="eyebrow entourage-heading">Flower Girls</p>
         <p class="names-list">To be announced</p>
       </div>
-      <div class="entourage-group">
-        <h3>Parents of the Bride</h3>
-        <p class="names-list">To be announced</p>
+
+      <div class="entourage-block">
+        <div class="entourage-cols">
+          <p class="eyebrow entourage-heading">Bible Bearer</p>
+          <p class="eyebrow entourage-heading">Ring Bearer</p>
+        </div>
+        <div class="entourage-cols">
+          <p class="names-list">To be announced</p>
+          <p class="names-list">To be announced</p>
+        </div>
       </div>
-      <div class="entourage-group">
-        <h3>Best Man</h3>
-        <p class="names-list">To be announced</p>
+
+      <p class="tagline entourage-note">To support us along the way</p>
+      <div class="dot-divider"><span></span><span></span><span></span></div>
+
+      <div class="entourage-block">
+        <div class="entourage-cols">
+          <p class="eyebrow entourage-heading">Cord Sponsors</p>
+          <p class="eyebrow entourage-heading">Veil Sponsors</p>
+        </div>
+        <div class="entourage-cols">
+          <p class="names-list">To be announced</p>
+          <p class="names-list">To be announced</p>
+        </div>
       </div>
-      <div class="entourage-group">
-        <h3>Maid of Honor</h3>
-        <p class="names-list">To be announced</p>
-      </div>
-      <div class="entourage-group">
-        <h3>Groomsmen</h3>
-        <p class="names-list">To be announced</p>
-      </div>
-      <div class="entourage-group">
-        <h3>Bridesmaids</h3>
-        <p class="names-list">To be announced</p>
-      </div>
-      <div class="entourage-group">
-        <h3>Ring Bearer</h3>
-        <p class="names-list">To be announced</p>
-      </div>
-      <div class="entourage-group">
-        <h3>Flower Girl</h3>
+
+      <div class="entourage-block">
+        <p class="eyebrow entourage-heading">Candle Sponsors</p>
         <p class="names-list">To be announced</p>
       </div>
     </div>
