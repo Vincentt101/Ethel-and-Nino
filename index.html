@@ -543,13 +543,14 @@
     display:block; font-family:'Jost',sans-serif; font-size:.68rem; text-transform:uppercase;
     letter-spacing:.18em; color:var(--ink-soft); margin-bottom:.6rem;
   }
-  .field input[type="text"], .field input[type="email"], .field textarea{
+  .field input[type="text"], .field input[type="email"], .field textarea, .field select{
     width:100%; border:none; border-bottom:1px solid var(--rose-line); background:transparent;
     font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:var(--ink);
     padding:.35rem .1rem; outline:none; resize:vertical; min-height:2.3rem;
   }
+  .field select{ cursor:pointer; }
   .field textarea{ min-height:3.6rem; }
-  .field input:focus-visible, .field textarea:focus-visible{ border-color:var(--rose); outline:none; }
+  .field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible{ border-color:var(--rose); outline:none; }
   .field input::placeholder, .field textarea::placeholder{ color:var(--ink-soft); opacity:.65; font-style:italic; }
 
   .response-row{ display:flex; gap:1rem; }
@@ -574,6 +575,21 @@
   .rsvp-submit:focus-visible{ outline:2px solid var(--ink-soft); outline-offset:3px; }
 
   .rsvp-note{ font-family:'Jost',sans-serif; font-size:.72rem; color:var(--ink-soft); text-align:center; margin:0; }
+
+  .confirmed-grid{
+    width:100%; display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:.6rem;
+  }
+  .confirmed-pill{
+    display:flex; align-items:center; gap:.5rem; padding:.6rem .8rem; border-radius:999px;
+    border:1px solid var(--rose-line); background:var(--paper-deep);
+    font-family:'Cormorant Garamond',serif; font-size:.95rem; color:var(--ink); text-align:left;
+  }
+  .confirmed-check{ width:1rem; height:1rem; color:var(--rose); flex-shrink:0; }
+  .confirmed-pill span:not(.confirmed-plus){ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .confirmed-plus{
+    margin-left:auto; font-family:'Jost',sans-serif; font-size:.65rem; color:var(--rose);
+    background:var(--blush); border-radius:999px; padding:.1rem .4rem; flex-shrink:0;
+  }
 
   .gcash-card{
     width:100%; max-width:280px; display:flex; flex-direction:column; align-items:center; gap:.7rem;
@@ -643,6 +659,7 @@
     <a href="#gallery">Gallery</a>
     <a href="#share">Scan &amp; Share</a>
     <a href="#rsvp">RSVP</a>
+    <a href="#confirmed">Confirmed Guests</a>
   </div>
 </nav>
 
@@ -1014,13 +1031,37 @@
       </div>
 
       <div class="field">
+        <label for="rsvpGuests">Number of guests (including you)</label>
+        <select id="rsvpGuests" name="guests">
+          <option value="1">Just me</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+
+      <div class="field">
         <label for="rsvpMessage">Message for the couple</label>
         <textarea id="rsvpMessage" name="message" rows="2" placeholder="Leave a sweet note…"></textarea>
       </div>
 
       <button type="submit" class="rsvp-submit">Confirm attendance</button>
-      <p class="rsvp-note">This opens your email app to send your RSVP straight to Ethel &amp; Niño.</p>
+      <p class="rsvp-note">This saves your RSVP and opens your email app to notify Ethel &amp; Niño.</p>
     </form>
+  </section>
+
+  <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
+
+  <section class="section" id="confirmed">
+    <svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M3 20c0-3 2.5-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="17" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M15 20c.2-2.3 1.8-4 4-4.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <h2 class="section-title">Confirmed Guests</h2>
+    <p class="eyebrow" id="confirmedSummary">Guest list will appear here once RSVPs start coming in.</p>
+    <div class="confirmed-grid" id="confirmedGrid"></div>
   </section>
 
   <footer>
@@ -1363,7 +1404,9 @@
     if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openGate(); }
   });
 
-  // rsvp form -> mailto
+  // rsvp form -> Google Sheet backend + mailto notification
+  var RSVP_API_URL = 'REPLACE_WITH_YOUR_APPS_SCRIPT_URL';
+
   var rsvpForm=document.getElementById('rsvpForm');
   var acceptBtn=document.getElementById('rsvpAccept');
   var declineBtn=document.getElementById('rsvpDecline');
@@ -1383,10 +1426,19 @@
     e.preventDefault();
     var name=document.getElementById('rsvpName').value.trim();
     var email=document.getElementById('rsvpEmail').value.trim();
+    var guests=document.getElementById('rsvpGuests').value;
     var message=document.getElementById('rsvpMessage').value.trim();
 
     if(!name){ alert('Please enter your full name.'); return; }
     if(!rsvpResponse){ alert('Please let us know — Accept or Decline.'); return; }
+
+    if(RSVP_API_URL && RSVP_API_URL.indexOf('REPLACE')!==0){
+      fetch(RSVP_API_URL, {
+        method:'POST',
+        headers:{ 'Content-Type':'text/plain;charset=utf-8' }, // avoids a CORS preflight against Apps Script
+        body:JSON.stringify({ name:name, email:email, response:rsvpResponse, guests:guests, message:message })
+      }).catch(function(){ /* saved copy still goes out by email below */ });
+    }
 
     var to='ethelsayson505@gmail.com,ninoconje1@yahoo.com.ph';
     var subject='RSVP: '+name+' — '+rsvpResponse;
@@ -1394,10 +1446,38 @@
       'Name: '+name,
       'Email: '+(email || '(not provided)'),
       'Response: '+rsvpResponse,
+      'Guests: '+guests,
       'Message: '+(message || '(none)')
     ].join('\n');
 
     window.location.href='mailto:'+to+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   });
+
+  // confirmed guests list, read live from the same Google Sheet backend
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(c){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+  var confirmedSummary=document.getElementById('confirmedSummary');
+  var confirmedGrid=document.getElementById('confirmedGrid');
+  if(RSVP_API_URL && RSVP_API_URL.indexOf('REPLACE')!==0 && confirmedGrid){
+    fetch(RSVP_API_URL).then(function(r){ return r.json(); }).then(function(data){
+      if(!data.confirmed || !data.confirmed.length){
+        confirmedSummary.textContent='No confirmations yet — check back soon!';
+        return;
+      }
+      confirmedSummary.textContent=data.confirmedCount+' confirmed · '+data.totalGuests+' total guests';
+      data.confirmed.forEach(function(g){
+        var pill=document.createElement('div');
+        pill.className='confirmed-pill';
+        var extra=g.guests>1 ? '<span class="confirmed-plus">+'+(g.guests-1)+'</span>' : '';
+        pill.innerHTML='<svg class="confirmed-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>'+escapeHtml(g.name)+'</span>'+extra;
+        confirmedGrid.appendChild(pill);
+      });
+    }).catch(function(){
+      confirmedSummary.textContent='Guest list will appear here once RSVPs start coming in.';
+    });
+  }
 })();
 </script>

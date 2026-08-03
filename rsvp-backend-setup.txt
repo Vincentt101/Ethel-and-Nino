@@ -1,0 +1,55 @@
+HOW TO SET UP THE LIVE RSVP BACKEND (Google Sheet)
+====================================================
+
+This turns your RSVP form into a real, automatic system: every submission
+gets saved to a Google Sheet, and the website's "Confirmed Guests" list
+reads from that same sheet live. No email involved in this part.
+
+You only need to do this once. It takes about 5 minutes.
+
+STEP 1 — Create the Sheet
+--------------------------
+1. Go to sheets.google.com and create a new blank spreadsheet.
+2. Name it something like "Ethel & Nino RSVPs".
+   (You don't need to add any columns yourself — the script does that.)
+
+STEP 2 — Add the script
+------------------------
+1. In that spreadsheet, click Extensions > Apps Script.
+2. Delete anything in the code editor (the default "myFunction() {}" stub).
+3. Open the file "rsvp-apps-script.gs" (next to this file) and copy
+   its entire contents.
+4. Paste it into the Apps Script editor.
+5. Click the Save icon (or Ctrl+S).
+
+STEP 3 — Deploy it as a Web App
+--------------------------------
+1. In the Apps Script editor, click Deploy > New deployment.
+2. Click the gear icon next to "Select type" and choose "Web app".
+3. Fill in:
+     - Description: RSVP backend (or anything you like)
+     - Execute as: Me (your Google account)
+     - Who has access: Anyone
+   This last setting matters — it must be "Anyone", not
+   "Anyone with a Google account", or the website won't be able to reach it.
+4. Click Deploy.
+5. Google will ask you to authorize it — click Authorize access, choose
+   your Google account, click "Advanced" > "Go to (project name) (unsafe)"
+   if it shows a warning, then Allow. This warning is normal for scripts
+   you write yourself; it's not actually unsafe.
+6. You'll be given a "Web app URL" that looks like:
+     https://script.google.com/macros/s/AKfycb.../exec
+   Copy that whole URL.
+
+STEP 4 — Send it to me
+------------------------
+Paste that URL back here in our chat, and I'll wire it into the site so:
+  - RSVP submissions save straight to your Sheet
+  - The Confirmed Guests section updates automatically as people respond
+
+Anytime you want to check responses yourself, just open the Google Sheet
+directly — every submission shows up there as a new row.
+
+If you ever need to redeploy after editing the script again, use
+Deploy > Manage deployments > (pencil/edit icon) > New version > Deploy,
+otherwise the live URL won't reflect your changes.
