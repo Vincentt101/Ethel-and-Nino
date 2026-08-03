@@ -96,7 +96,7 @@
   .gate.opened .envelope{ transform:scale(1.06); }
 
   .envelope{
-    position:relative; width:min(78vw, 320px); aspect-ratio:3/2;
+    position:relative; width:min(92vw, 460px); aspect-ratio:3/2;
     transition:transform 1.4s cubic-bezier(.2,.8,.2,1);
   }
   .envelope-body{
@@ -111,7 +111,7 @@
 
   .envelope-letter{
     position:absolute; left:50%; bottom:10%; transform:translate(-50%, 15%);
-    width:68%; max-width:220px; aspect-ratio:1.6/1;
+    width:68%; max-width:280px; aspect-ratio:1.6/1;
     background:linear-gradient(180deg, var(--paper), var(--paper-deep));
     border:1px solid var(--rose-line); border-radius:5px;
     display:flex; align-items:center; justify-content:center; padding:0 .6rem;
@@ -135,7 +135,7 @@
 
   .seal-btn{
     position:absolute; top:52%; left:50%; transform:translate(-50%,-50%);
-    z-index:5; width:88px; height:88px; border-radius:50%; border:none; cursor:pointer;
+    z-index:5; width:clamp(88px, 24%, 122px); height:clamp(88px, 24%, 122px); border-radius:50%; border:none; cursor:pointer;
     background:
       radial-gradient(circle at 35% 30%, var(--wax-hi), transparent 55%),
       radial-gradient(circle at 60% 70%, transparent 40%, rgba(0,0,0,.18) 100%),
@@ -154,7 +154,7 @@
   }
 
   .crack-flare{
-    position:absolute; top:52%; left:50%; width:88px; height:88px;
+    position:absolute; top:52%; left:50%; width:clamp(88px, 24%, 122px); height:clamp(88px, 24%, 122px);
     transform:translate(-50%,-50%) scale(0.4); border-radius:50%;
     background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,214,230,.55) 45%, transparent 72%);
     opacity:0; pointer-events:none; z-index:6;
