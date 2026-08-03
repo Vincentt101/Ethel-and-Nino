@@ -22,34 +22,18 @@
   }
 
   :root{
-    --ink:#9a5470;
-    --ink-soft:#c1809d;
-    --rose:#cf6f96;
-    --rose-line:#eab7cc;
-    --blush:#f3cddc;
-    --blush-strong:#e6a2ba;
-    --paper:#fdf1f4;
-    --paper-deep:#f7dde6;
-    --card-shadow:rgba(154,84,112,0.18);
-    --wax:#d5678f;
-    --wax-hi:#ffc3dc91;
-    color-scheme:light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --ink:#ffd9ea;
-      --ink-soft:#f3b8d2;
-      --rose:#f6a8c9;
-      --rose-line:#c9789d;
-      --blush:#4a2536;
-      --blush-strong:#5c2d44;
-      --paper:#26121d;
-      --paper-deep:#301826;
-      --card-shadow:rgba(0,0,0,0.5);
-      --wax:#e685ad;
-      --wax-hi:#ffd0e4a1;
-      color-scheme:dark;
-    }
+    --ink:#ffd9ea;
+    --ink-soft:#f3b8d2;
+    --rose:#f6a8c9;
+    --rose-line:#c9789d;
+    --blush:#4a2536;
+    --blush-strong:#5c2d44;
+    --paper:#26121d;
+    --paper-deep:#301826;
+    --card-shadow:rgba(0,0,0,0.5);
+    --wax:#e685ad;
+    --wax-hi:#ffd0e4a1;
+    color-scheme:dark;
   }
   :root[data-theme="dark"]{
     --ink:#ffd9ea; --ink-soft:#f3b8d2; --rose:#f6a8c9; --rose-line:#c9789d;
@@ -80,11 +64,10 @@
   body::before{
     content:"";
     position:fixed; inset:0; pointer-events:none; z-index:0;
-    opacity:.5; mix-blend-mode:multiply;
+    opacity:.35; mix-blend-mode:screen;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
-  @media (prefers-color-scheme: dark){ body::before{ mix-blend-mode:screen; opacity:.35; } }
-  :root[data-theme="dark"] ~ body::before{ mix-blend-mode:screen; opacity:.35; }
+  :root[data-theme="light"] body::before{ mix-blend-mode:multiply; opacity:.5; }
 
   h1,h2,h3{margin:0; text-wrap:balance;}
 
@@ -964,8 +947,7 @@
   var toggle=document.getElementById('themeToggle');
   toggle.addEventListener('click',function(){
     var cur=root.getAttribute('data-theme');
-    var mql=window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var effectiveDark = cur ? cur==='dark' : mql;
+    var effectiveDark = cur ? cur==='dark' : true; // dark is the default starting state
     root.setAttribute('data-theme', effectiveDark ? 'light' : 'dark');
   });
 
