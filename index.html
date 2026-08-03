@@ -234,6 +234,23 @@
   }
   .theme-toggle:focus-visible{ outline:2px solid var(--ink-soft); outline-offset:2px; }
 
+  .music-toggle{
+    position:fixed; top:1rem; left:1rem; z-index:60;
+    background:var(--paper-deep); border:1px solid var(--rose-line); color:var(--ink);
+    width:2.2rem; height:2.2rem; border-radius:50%; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .music-toggle:focus-visible{ outline:2px solid var(--ink-soft); outline-offset:2px; }
+  .music-toggle svg{ width:1.05rem; height:1.05rem; }
+  .music-toggle.playing svg{ animation:noteBounce 1.6s ease-in-out infinite; }
+  @keyframes noteBounce{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-2px); } }
+  @media (prefers-reduced-motion: reduce){ .music-toggle.playing svg{ animation:none; } }
+
+  .credit{
+    font-family:'Jost',sans-serif; font-size:.6rem; color:var(--ink-soft); opacity:.7;
+    text-align:center; margin-top:.2rem;
+  }
+
   /* ---------- section rhythm ---------- */
   .site-nav{
     display:flex; gap:.5rem 1.3rem; flex-wrap:wrap; justify-content:center;
@@ -366,6 +383,15 @@
 </svg>
 
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" type="button">◐</button>
+
+<button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="Play background music">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 18V6l10-2v10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="6.5" cy="18" r="2.4" fill="currentColor"/>
+    <circle cx="17.5" cy="16" r="2.4" fill="currentColor"/>
+  </svg>
+</button>
+<audio id="bgMusic" src="fairytale-waltz.mp3" loop preload="none"></audio>
 
 <div class="petals" id="petals" aria-hidden="true"></div>
 
@@ -589,6 +615,7 @@
   <footer>
     <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
     <span class="script">With love, Ethel &amp; Niño</span>
+    <p class="credit">Music: “Fairytale Waltz” by Kevin MacLeod (incompetech.com) — CC BY 4.0</p>
   </footer>
 </main>
 
@@ -686,6 +713,24 @@
     }
   }
 
+  // background music
+  var music=document.getElementById('bgMusic');
+  var musicToggle=document.getElementById('musicToggle');
+  music.volume=0.45;
+
+  function setMusicUI(playing){
+    musicToggle.classList.toggle('playing', playing);
+    musicToggle.setAttribute('aria-pressed', playing);
+    musicToggle.setAttribute('aria-label', playing ? 'Pause background music' : 'Play background music');
+  }
+  function tryPlayMusic(){
+    var p=music.play();
+    if(p && p.then){ p.then(function(){ setMusicUI(true); }).catch(function(){ setMusicUI(false); }); }
+  }
+  musicToggle.addEventListener('click', function(){
+    if(music.paused){ tryPlayMusic(); } else { music.pause(); setMusicUI(false); }
+  });
+
   // envelope gate interaction
   var gate=document.getElementById('gate');
   var seal=document.getElementById('sealBtn');
@@ -696,6 +741,7 @@
     gate.classList.add('opening');
     main.classList.add('reveal');
     document.body.style.overflow='';
+    tryPlayMusic();
     var delay = reduced ? 260 : 900;
     setTimeout(function(){ gate.classList.add('opened'); }, delay);
   }
