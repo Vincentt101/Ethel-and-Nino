@@ -496,6 +496,31 @@
   }
   .hashtag-pill strong{ font-style:normal; font-weight:600; color:var(--rose); letter-spacing:.01em; }
 
+  .share-icon{ width:2.4rem; height:2.4rem; color:var(--rose); }
+
+  .share-grid{
+    width:100%; display:flex; flex-wrap:wrap; gap:1.6rem; justify-content:center; align-items:flex-start;
+    margin-top:.4rem;
+  }
+  .share-qr-wrap, .share-actions{ display:flex; flex-direction:column; align-items:center; gap:.6rem; flex:1 1 220px; }
+  .qr-placeholder{
+    width:100%; max-width:200px; aspect-ratio:1; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; color:var(--rose-line);
+    background:linear-gradient(150deg, var(--blush-strong), var(--blush));
+    border:1px solid var(--rose-line);
+  }
+  .qr-placeholder svg{ width:22%; height:22%; opacity:.65; }
+
+  .share-upload-btn{
+    display:flex; align-items:center; gap:.5rem; padding:.9rem 1.4rem; border-radius:999px;
+    border:none; background:var(--ink); color:var(--paper); cursor:not-allowed; opacity:.55;
+    font-family:'Jost',sans-serif; font-size:.78rem; text-transform:uppercase; letter-spacing:.12em;
+  }
+  .share-upload-btn svg{ width:1.1rem; height:1.1rem; }
+
+  .share-hashtag{ display:flex; flex-direction:column; align-items:center; gap:.5rem; margin-top:.6rem; }
+  .share-hashtag .hashtag-pill{ margin:0; }
+
   /* ---------- rsvp form ---------- */
   .rsvp-form{ width:100%; text-align:left; display:flex; flex-direction:column; gap:1.5rem; margin-top:.4rem; }
   .field label{
@@ -600,6 +625,7 @@
     <a href="#attire">Attire</a>
     <a href="#gifts">Gift Guide</a>
     <a href="#gallery">Gallery</a>
+    <a href="#share">Scan &amp; Share</a>
     <a href="#rsvp">RSVP</a>
   </div>
 </nav>
@@ -892,7 +918,37 @@
     </div>
     <p class="eyebrow swipe-hint">← swipe to browse →</p>
     <p class="note">Photos coming soon — share a few and they'll find a home here.</p>
-    <p class="hashtag-pill">Tag your photos <strong>#TheEthelNiñoEffect</strong></p>
+  </section>
+
+  <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
+
+  <section class="section" id="share">
+    <svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <circle cx="12" cy="14" r="3.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    </svg>
+    <h2 class="section-title">Scan &amp; Share</h2>
+    <p class="tagline">Help us capture the love! Scan the QR code below, or tap the button, to add your photos and videos to our shared Google Drive folder.</p>
+
+    <div class="share-grid">
+      <div class="share-qr-wrap">
+        <div class="qr-placeholder"><svg viewBox="0 0 16 30"><use href="#leaf"></use></svg></div>
+        <span class="eyebrow label">QR coming soon</span>
+      </div>
+
+      <div class="share-actions">
+        <button type="button" class="share-upload-btn" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0 4 4m-4-4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Upload Photos Here
+        </button>
+        <span class="eyebrow label">Link coming soon</span>
+
+        <div class="share-hashtag">
+          <span class="eyebrow label">Or use our official hashtag</span>
+          <p class="hashtag-pill">#TheEthelNiñoEffect</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
