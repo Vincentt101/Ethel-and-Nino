@@ -464,6 +464,21 @@
     color:var(--ink-soft); line-height:1.7; margin:0;
   }
 
+  .divider-heart{ display:flex; align-items:center; gap:.8rem; width:100%; max-width:220px; }
+  .divider-heart::before, .divider-heart::after{ content:""; flex:1; height:1px; background:var(--rose-line); }
+  .divider-heart span{ color:var(--rose); font-size:.9rem; line-height:1; }
+
+  .sponsor-card{
+    width:100%; display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;
+    border:1px solid var(--rose-line); border-radius:14px; padding:1.6rem 1.4rem;
+    background:var(--paper-deep);
+  }
+  .sponsor-col{ display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+  .sponsor-col .names-list{
+    font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-style:italic;
+    color:var(--ink-soft); line-height:1.7; margin:0;
+  }
+
   .attire-cols{ width:100%; display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:1.2rem; text-align:left; }
   .attire-col h3{ font-family:'Jost',sans-serif; font-size:.72rem; text-transform:uppercase; letter-spacing:.2em; color:var(--rose); margin:0 0 .4rem; }
   .attire-col p{ font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--ink); margin:0; }
@@ -595,6 +610,7 @@
     <a href="#timeline">Timeline</a>
     <a href="#story">Love Story</a>
     <a href="#entourage">Entourage</a>
+    <a href="#sponsors">Sponsors</a>
     <a href="#attire">Attire</a>
     <a href="#gifts">Gift Guide</a>
     <a href="#gallery">Gallery</a>
@@ -755,6 +771,24 @@
       </div>
       <div class="entourage-group">
         <h3>Flower Girl</h3>
+        <p class="names-list">To be announced</p>
+      </div>
+    </div>
+  </section>
+
+  <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
+
+  <section class="section" id="sponsors">
+    <p class="eyebrow">Our beloved godparents</p>
+    <h2 class="section-title">Principal Sponsors</h2>
+    <div class="divider-heart"><span>&#10084;</span></div>
+    <div class="sponsor-card">
+      <div class="sponsor-col">
+        <span class="eyebrow label">Ninong</span>
+        <p class="names-list">To be announced</p>
+      </div>
+      <div class="sponsor-col">
+        <span class="eyebrow label">Ninang</span>
         <p class="names-list">To be announced</p>
       </div>
     </div>
