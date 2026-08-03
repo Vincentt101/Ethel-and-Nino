@@ -323,14 +323,6 @@
   footer{ display:flex; flex-direction:column; align-items:center; gap:.6rem; }
   footer .script{ font-size:1.8rem; color:var(--ink); }
 
-  .theme-toggle{
-    position:fixed; top:1rem; right:1rem; z-index:60;
-    background:var(--paper-deep); border:1px solid var(--rose-line); color:var(--ink);
-    width:2.2rem; height:2.2rem; border-radius:50%; cursor:pointer; font-size:1rem;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .theme-toggle:focus-visible{ outline:2px solid var(--ink-soft); outline-offset:2px; }
-
   .music-toggle{
     position:fixed; top:1rem; left:1rem; z-index:60;
     background:var(--paper-deep); border:1px solid var(--rose-line); color:var(--ink);
@@ -348,18 +340,62 @@
     text-align:center; margin-top:.2rem;
   }
 
-  /* ---------- section rhythm ---------- */
-  .site-nav{
-    display:flex; gap:.5rem 1.3rem; flex-wrap:wrap; justify-content:center;
-    padding:.7rem 0; border-top:1px solid var(--rose-line); border-bottom:1px solid var(--rose-line);
-    width:100%;
+  /* ---------- hamburger menu + slide-down panel ---------- */
+  .menu-toggle{
+    position:fixed; top:1rem; right:1rem; z-index:70;
+    background:var(--paper-deep); border:1px solid var(--rose-line); color:var(--ink);
+    width:2.2rem; height:2.2rem; border-radius:50%; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .2s ease;
   }
-  .site-nav a{
-    font-family:'Jost', sans-serif; font-size:.68rem; text-transform:uppercase; letter-spacing:.16em;
-    color:var(--ink-soft); text-decoration:none; padding-bottom:.15rem; border-bottom:1px solid transparent;
-    transition:color .2s ease, border-color .2s ease;
+  .menu-toggle:focus-visible{ outline:2px solid var(--ink-soft); outline-offset:2px; }
+  .menu-icon, .menu-icon::before, .menu-icon::after{
+    display:block; width:1.05rem; height:1.5px; background:currentColor; position:relative;
+    transition:transform .25s ease, opacity .25s ease, top .25s ease;
   }
-  .site-nav a:hover, .site-nav a:focus-visible{ color:var(--ink); border-color:var(--rose); }
+  .menu-icon::before, .menu-icon::after{ content:""; position:absolute; left:0; }
+  .menu-icon::before{ top:-.4rem; }
+  .menu-icon::after{ top:.4rem; }
+  .menu-toggle.open .menu-icon{ background:transparent; }
+  .menu-toggle.open .menu-icon::before{ top:0; transform:rotate(45deg); }
+  .menu-toggle.open .menu-icon::after{ top:0; transform:rotate(-45deg); }
+
+  .nav-scrim{
+    position:fixed; inset:0; z-index:64; background:transparent;
+    opacity:0; visibility:hidden; transition:opacity .25s ease, visibility .25s ease;
+  }
+  .nav-scrim.open{ opacity:1; visibility:visible; }
+
+  .nav-panel{
+    position:fixed; top:3.5rem; right:1rem; z-index:65; width:min(58vw, 230px);
+    max-height:calc(100vh - 5rem); overflow-y:auto;
+    background:color-mix(in srgb, var(--paper-deep) 92%, transparent);
+    backdrop-filter:blur(10px); border:1px solid var(--rose-line); border-radius:16px;
+    box-shadow:0 20px 40px -16px var(--card-shadow);
+    opacity:0; visibility:hidden; transform:translateY(-8px) scale(.98);
+    transform-origin:top right;
+    transition:opacity .22s ease, transform .22s ease, visibility .22s ease;
+  }
+  .nav-panel.open{ opacity:1; visibility:visible; transform:translateY(0) scale(1); }
+  .nav-panel-inner{ display:flex; flex-direction:column; padding:.5rem 0; }
+  .nav-panel a{
+    font-family:'Jost', sans-serif; font-size:.82rem; letter-spacing:.03em;
+    color:var(--ink); text-decoration:none; padding:.7rem 1.2rem;
+    border-bottom:1px solid var(--rose-line);
+  }
+  .nav-panel a:last-of-type{ border-bottom:none; }
+  .nav-panel a:hover, .nav-panel a:focus-visible{ color:var(--rose); background:var(--blush); }
+  .nav-panel-theme{
+    display:flex; align-items:center; gap:.5rem; width:100%; text-align:left;
+    font-family:'Jost', sans-serif; font-size:.78rem; letter-spacing:.03em;
+    color:var(--ink-soft); background:none; border:none; border-top:1px solid var(--rose-line);
+    padding:.75rem 1.2rem; cursor:pointer;
+  }
+  .nav-panel-theme:hover, .nav-panel-theme:focus-visible{ color:var(--rose); }
+
+  @media (prefers-reduced-motion: reduce){
+    .nav-panel{ transition-duration:.05s; }
+  }
 
   .section{
     width:100%; display:flex; flex-direction:column; align-items:center; gap:1rem;
@@ -509,7 +545,27 @@
   </symbol>
 </svg>
 
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" type="button">◐</button>
+<button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+  <span class="menu-icon" aria-hidden="true"></span>
+</button>
+
+<div class="nav-scrim" id="navScrim"></div>
+
+<nav class="nav-panel" id="navPanel" aria-label="Section navigation">
+  <div class="nav-panel-inner">
+    <a href="#monogramStage">Home</a>
+    <a href="#story">Love Story</a>
+    <a href="#countdown">Countdown</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#details">Event Details</a>
+    <a href="#entourage">Entourage</a>
+    <a href="#attire">Attire</a>
+    <a href="#gifts">Gift Guide</a>
+    <a href="#rsvp">RSVP</a>
+    <button class="nav-panel-theme" id="themeToggle" type="button">◐ <span>Toggle theme</span></button>
+  </div>
+</nav>
 
 <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="Play background music">
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -554,16 +610,6 @@
     </div>
   </section>
 
-  <nav class="site-nav" id="siteNav" aria-label="Section navigation">
-    <a href="#details">Details</a>
-    <a href="#story">Story</a>
-    <a href="#entourage">Entourage</a>
-    <a href="#attire">Attire</a>
-    <a href="#gifts">Gifts</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#rsvp">RSVP</a>
-  </nav>
-
   <section class="section" id="details">
     <div class="date-block">
       <p class="eyebrow weekday">Save the date</p>
@@ -593,7 +639,7 @@
       </div>
     </div>
 
-    <div class="timeline">
+    <div class="timeline" id="timeline">
       <div class="timeline-item"><span class="t-label">Ceremony</span><span class="t-time">Time to be announced</span></div>
       <div class="timeline-item"><span class="t-label">Cocktail Hour</span><span class="t-time">Time to be announced</span></div>
       <div class="timeline-item"><span class="t-label">Reception</span><span class="t-time">Time to be announced</span></div>
@@ -864,12 +910,34 @@
   }
   document.querySelectorAll('.sprig').forEach(buildSprig);
 
+  // hamburger menu: open/close the slide-down panel
+  var menuToggle=document.getElementById('menuToggle');
+  var navPanel=document.getElementById('navPanel');
+  var navScrim=document.getElementById('navScrim');
+
+  function closeMenu(){
+    menuToggle.classList.remove('open'); navPanel.classList.remove('open'); navScrim.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded','false');
+  }
+  function openMenu(){
+    menuToggle.classList.add('open'); navPanel.classList.add('open'); navScrim.classList.add('open');
+    menuToggle.setAttribute('aria-expanded','true');
+  }
+  menuToggle.addEventListener('click', function(){
+    if(navPanel.classList.contains('open')){ closeMenu(); } else { openMenu(); }
+  });
+  navScrim.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape'){ closeMenu(); }
+  });
+
   // in-page nav: smooth scroll to sections
-  document.querySelectorAll('.site-nav a, .stage-btn').forEach(function(a){
+  document.querySelectorAll('.nav-panel a, .stage-btn').forEach(function(a){
     a.addEventListener('click', function(e){
       e.preventDefault();
       var target = document.getElementById(a.getAttribute('href').slice(1));
       if(!target) return;
+      closeMenu();
       target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' });
       var focusId = a.getAttribute('data-focus');
       if(focusId){
