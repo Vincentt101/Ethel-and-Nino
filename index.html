@@ -251,16 +251,21 @@
   .stage-content{ position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:.6rem; }
 
   .monogram-mark{
-    position:relative; height:clamp(8rem,28vw,12.5rem); display:flex; align-items:center; justify-content:center;
+    position:relative; height:clamp(7.5rem,26vw,11.5rem); display:flex; align-items:center; justify-content:center;
     margin-bottom:.3rem;
   }
-  .monogram-mark span{
-    font-family:'Cormorant Garamond', serif; font-weight:600; font-style:italic;
-    font-size:clamp(6.5rem,24vw,10rem); line-height:1; color:#fdeaf1;
-    text-shadow:0 0 34px rgba(246,169,201,.6), 0 2px 2px rgba(0,0,0,.45);
+  .monogram-mark .mono-e, .monogram-mark .mono-n{
+    font-family:'Cormorant Garamond', serif; font-weight:600; font-style:normal;
+    font-size:clamp(6rem,22vw,9.5rem); line-height:1; color:#fbeef2;
+    transform:scaleY(1.16); text-shadow:0 3px 12px rgba(0,0,0,.45);
   }
-  .mono-e{ position:relative; z-index:1; margin-right:-0.36em; transform:translateY(-3%); }
-  .mono-n{ position:relative; z-index:2; margin-left:-0.36em; transform:translateY(5%); }
+  .mono-e{ position:relative; z-index:1; margin-right:-0.24em; }
+  .mono-n{ position:relative; z-index:1; margin-left:-0.24em; }
+  .mono-amp{
+    position:absolute; left:50%; top:58%; transform:translate(-50%,-50%) rotate(-6deg);
+    font-family:'Parisienne', cursive; font-size:clamp(2rem,7vw,3.1rem); color:#fbeef2;
+    z-index:2; text-shadow:0 2px 8px rgba(0,0,0,.4);
+  }
 
   .stage-eyebrow{ color:#f0accb; }
   .stage-names .script{ color:#fdeaf1; text-shadow:0 2px 20px rgba(0,0,0,.5); }
@@ -506,7 +511,7 @@
 
     <div class="stage-content">
       <div class="monogram-mark" aria-hidden="true">
-        <span class="mono-e">E</span><span class="mono-n">N</span>
+        <span class="mono-e">E</span><span class="mono-amp">&amp;</span><span class="mono-n">N</span>
       </div>
 
       <p class="eyebrow stage-eyebrow">Together with their families</p>
