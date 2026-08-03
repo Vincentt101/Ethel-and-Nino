@@ -549,6 +549,9 @@
     padding:.35rem .1rem; outline:none; resize:vertical; min-height:2.3rem;
   }
   .field select{ cursor:pointer; }
+  .field select option{
+    color:#2b1a22; background:#fff8fa; /* native dropdown popups often force a light background regardless of page theme */
+  }
   .field textarea{ min-height:3.6rem; }
   .field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible{ border-color:var(--rose); outline:none; }
   .field input::placeholder, .field textarea::placeholder{ color:var(--ink-soft); opacity:.65; font-style:italic; }
