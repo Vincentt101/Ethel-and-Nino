@@ -323,8 +323,16 @@
   footer{ display:flex; flex-direction:column; align-items:center; gap:.6rem; }
   footer .script{ font-size:1.8rem; color:var(--ink); }
 
-  .music-toggle{
+  .theme-toggle{
     position:fixed; top:1rem; left:1rem; z-index:60;
+    background:var(--paper-deep); border:1px solid var(--rose-line); color:var(--ink);
+    width:2.2rem; height:2.2rem; border-radius:50%; cursor:pointer; font-size:1rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .theme-toggle:focus-visible{ outline:2px solid var(--ink-soft); outline-offset:2px; }
+
+  .music-toggle{
+    position:fixed; bottom:1rem; right:1rem; z-index:60;
     background:var(--paper-deep); border:1px solid var(--rose-line); color:var(--ink);
     width:2.2rem; height:2.2rem; border-radius:50%; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
@@ -385,13 +393,6 @@
   }
   .nav-panel a:last-of-type{ border-bottom:none; }
   .nav-panel a:hover, .nav-panel a:focus-visible{ color:var(--rose); background:var(--blush); }
-  .nav-panel-theme{
-    display:flex; align-items:center; gap:.5rem; width:100%; text-align:left;
-    font-family:'Jost', sans-serif; font-size:.78rem; letter-spacing:.03em;
-    color:var(--ink-soft); background:none; border:none; border-top:1px solid var(--rose-line);
-    padding:.75rem 1.2rem; cursor:pointer;
-  }
-  .nav-panel-theme:hover, .nav-panel-theme:focus-visible{ color:var(--rose); }
 
   @media (prefers-reduced-motion: reduce){
     .nav-panel{ transition-duration:.05s; }
@@ -545,6 +546,8 @@
   </symbol>
 </svg>
 
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" type="button">◐</button>
+
 <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
   <span class="menu-icon" aria-hidden="true"></span>
 </button>
@@ -554,16 +557,15 @@
 <nav class="nav-panel" id="navPanel" aria-label="Section navigation">
   <div class="nav-panel-inner">
     <a href="#monogramStage">Home</a>
-    <a href="#story">Love Story</a>
-    <a href="#countdown">Countdown</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#timeline">Timeline</a>
     <a href="#details">Event Details</a>
+    <a href="#countdown">Countdown</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#story">Love Story</a>
     <a href="#entourage">Entourage</a>
     <a href="#attire">Attire</a>
     <a href="#gifts">Gift Guide</a>
+    <a href="#gallery">Gallery</a>
     <a href="#rsvp">RSVP</a>
-    <button class="nav-panel-theme" id="themeToggle" type="button">◐ <span>Toggle theme</span></button>
   </div>
 </nav>
 
