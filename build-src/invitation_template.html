@@ -591,6 +591,32 @@
     background:var(--blush); border-radius:999px; padding:.1rem .4rem; flex-shrink:0;
   }
 
+  .info-grid{ width:100%; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; }
+  .info-card{
+    display:flex; flex-direction:column; gap:.5rem; text-align:left;
+    border:1px solid var(--rose-line); border-radius:12px; padding:1.1rem 1.2rem;
+    background:linear-gradient(180deg, var(--paper-deep), transparent);
+  }
+  .info-card p{ font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--ink); margin:0; line-height:1.5; }
+  .info-card p a{ color:var(--rose); }
+  .info-tbd{ font-style:italic; color:var(--ink-soft) !important; }
+
+  .hotel-card{
+    width:100%; display:flex; flex-wrap:wrap; gap:1.2rem; align-items:center; justify-content:space-between;
+    border:1px solid var(--rose-line); border-radius:14px; padding:1.4rem;
+    background:var(--paper-deep);
+  }
+  .hotel-info{ display:flex; flex-direction:column; gap:.3rem; text-align:left; flex:1 1 200px; }
+  .hotel-name{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.15rem; color:var(--ink); margin:0; }
+  .hotel-address{ font-family:'Cormorant Garamond',serif; font-size:.95rem; margin:0; }
+  .hotel-link{ font-family:'Jost',sans-serif; font-size:.75rem; letter-spacing:.04em; }
+  .hotel-link.muted{ color:var(--ink-soft); }
+  .hotel-qr-mini{
+    width:84px; height:84px; flex-shrink:0; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(150deg, var(--blush-strong), var(--blush)); color:var(--rose-line);
+  }
+  .hotel-qr-mini svg{ width:26%; height:26%; opacity:.65; }
+
   .gcash-card{
     width:100%; max-width:280px; display:flex; flex-direction:column; align-items:center; gap:.7rem;
     padding:1.3rem; border:1px solid var(--rose-line); border-radius:16px;
@@ -660,6 +686,7 @@
     <a href="#share">Scan &amp; Share</a>
     <a href="#rsvp">RSVP</a>
     <a href="#confirmed">Confirmed Guests</a>
+    <a href="#info">Additional Info</a>
   </div>
 </nav>
 
@@ -1062,6 +1089,46 @@
     <h2 class="section-title">Confirmed Guests</h2>
     <p class="eyebrow" id="confirmedSummary">Guest list will appear here once RSVPs start coming in.</p>
     <div class="confirmed-grid" id="confirmedGrid"></div>
+  </section>
+
+  <svg class="sprig" viewBox="-90 -20 180 40" aria-hidden="true"></svg>
+
+  <section class="section" id="info">
+    <svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <line x1="12" y1="11" x2="12" y2="16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="12" cy="7.5" r="1.1" fill="currentColor"/>
+    </svg>
+    <h2 class="section-title">Additional Information</h2>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <span class="eyebrow label">Dress Code</span>
+        <p>Modern formal is encouraged — see the Attire section above for the full palette.</p>
+      </div>
+      <div class="info-card">
+        <span class="eyebrow label">Parking</span>
+        <p class="info-tbd">To be announced.</p>
+      </div>
+      <div class="info-card">
+        <span class="eyebrow label">Directions</span>
+        <p class="info-tbd">Will be shared once the venue is confirmed.</p>
+      </div>
+      <div class="info-card">
+        <span class="eyebrow label">Contact</span>
+        <p>For inquiries, email <a href="mailto:ethelsayson505@gmail.com">Ethel</a> or <a href="mailto:ninoconje1@yahoo.com.ph">Niño</a>.</p>
+      </div>
+    </div>
+
+    <p class="eyebrow">Hotels &amp; accommodations</p>
+    <div class="hotel-card">
+      <div class="hotel-info">
+        <p class="hotel-name info-tbd">Hotel to be announced</p>
+        <p class="hotel-address info-tbd">Address to be announced</p>
+        <span class="hotel-link muted">Get directions — coming soon</span>
+      </div>
+      <div class="hotel-qr-mini"><svg viewBox="0 0 16 30"><use href="#leaf"></use></svg></div>
+    </div>
   </section>
 
   <footer>
